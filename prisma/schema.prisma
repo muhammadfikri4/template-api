@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Acara {
+  id          String    @id @unique @default(uuid())
+  name        String
+  description String?
+  image       String
+  isOpen      Boolean   @default(true) @map("is_open")
+  isOpenAbsen Boolean?  @default(true) @map("is_open_absen")
+  endTime     DateTime? @default(now()) @map("end_time")
+  startTime   DateTime? @default(now()) @map("start_time")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([name, startTime, endTime])
+}
